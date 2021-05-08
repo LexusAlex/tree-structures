@@ -1,0 +1,53 @@
+{
+    "name": "lexusalex/tree-structures",
+    "description": "tree structures in php",
+    "type": "library",
+    "license": "MIT",
+    "config": {
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "authors": [
+        {
+            "name": "Alexsey Shmelev",
+            "email": "alexsey_89@bk.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Tree\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "@stable",
+        "infection/infection": "@stable",
+        "overtrue/phplint": "@stable",
+        "phpstan/phpstan": "@stable",
+        "phpunit/phpunit": "@stable",
+        "psalm/plugin-phpunit": "@stable",
+        "squizlabs/php_codesniffer": "@stable",
+        "vimeo/psalm": "@stable"
+    },
+    "scripts": {
+        "phpunit": "phpunit",
+        "phpunit-coverage": "XDEBUG_MODE=coverage phpunit --colors=always --coverage-html var/test/coverage",
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
+        "phplint": "phplint",
+        "psalm": "psalm",
+        "phpstan": "phpstan",
+        "php-cs-fixer": "php-cs-fixer fix --allow-risky=yes --diff",
+        "php-cs-fixer-dry-run": "php-cs-fixer fix --allow-risky=yes --dry-run --diff",
+        "infection": "infection"
+    },
+    "require": {
+        "bluem/tree": "@stable"
+    }
+}
