@@ -46,8 +46,5 @@
         "php-cs-fixer": "php-cs-fixer fix --allow-risky=yes --diff",
         "php-cs-fixer-dry-run": "php-cs-fixer fix --allow-risky=yes --dry-run --diff",
         "infection": "infection"
-    },
-    "require": {
-        "bluem/tree": "@stable"
     }
 }
