@@ -7,24 +7,31 @@ namespace Tree;
 final class AdjacencyList
 {
     /**
+     * Выходной массив.
      * @var array|string[]
      */
     public array $output;
     /**
+     * Входной массив.
      * @var array|string[]
      */
     private array $input;
-
+    /**
+     * Количество элементов входного массива.
+     */
     private int $inputCount;
     /**
+     * Ключ корневого элемента.
      * @var int|string
      */
-    private string|int $keyRoot = 0;
+    private string|int $keyRoot;
     /**
+     * Временный массив.
      * @var array|string[]
      */
     private array $inputTemporary = [];
     /**
+     * Псевдонимы ключей.
      * @var array|string[]
      */
     private array $aliases = [
@@ -63,29 +70,37 @@ final class AdjacencyList
         }
     }
 
-    public function getTree(): array|string
+    /**
+     * Итоговое дерево.
+     */
+    public function getTree(): array
     {
         /**
          * @psalm-suppress MixedArrayAccess
          */
-        $this->makeRootNodes();
+        $this->getRootNodes();
         $this->recursiveSearchNodes($this->output);
 
         return $this->output;
     }
 
-    public function makeRootNodes(): void
+    /**
+     * Корневые элементы.
+     */
+    public function getRootNodes(): array
     {
         $count = $this->inputCount;
 
         $this->inputTemporary = $this->input;
 
+        // Если входной массив пустой, то цикл никогда не будет выполнен
         while ($count--) {
             /**
              * @psalm-suppress MixedArrayOffset
              * @psalm-suppress MixedArrayAccess
              * @var string $parent_id
              */
+            // [9]['parent']
             $parent_id = $this->inputTemporary[$count][$this->aliases['parent']];
 
             if ($parent_id === $this->keyRoot) {
@@ -93,9 +108,11 @@ final class AdjacencyList
                 unset($this->inputTemporary[$count]); // Удаляем родительские узлы
             }
         }
+
+        return $this->output;
     }
 
-    private function recursiveSearchNodes(array &$output): void
+    private function recursiveSearchNodes(array &$output): array
     {
         $aliases = $this->aliases;
         $outputCount = \count($output);
@@ -104,7 +121,7 @@ final class AdjacencyList
             $inputCount = $this->inputCount;
 
             while ($inputCount--) {
-                if (isset($this->inputTemporary[$inputCount])) {
+                if (\array_key_exists($inputCount, $this->inputTemporary)) {
                     /**
                      * @psalm-suppress MixedArrayOffset
                      * @psalm-suppress MixedArrayAccess
@@ -118,9 +135,12 @@ final class AdjacencyList
                          * @psalm-suppress MixedArrayOffset
                          * @psalm-suppress MixedArrayAssignment
                          */
-                        if (!isset($output[$outputCount][$aliases['children']])) {
+                        if (!\array_key_exists($aliases['children'], $output[$outputCount])) {
                             $output[$outputCount][$aliases['children']] = [];
                         }
+                        /*if (!isset($output[$outputCount][$aliases['children']])) {
+                            $output[$outputCount][$aliases['children']] = [];
+                        }*/
                         /**
                          * @psalm-suppress MixedAssignment
                          * @psalm-suppress MixedArrayAssignment
@@ -131,10 +151,14 @@ final class AdjacencyList
                         /**
                          * @psalm-suppress MixedArgument
                          */
-                        $this->recursiveSearchNodes($output[$outputCount][$aliases['children']]);
+                        return $this->recursiveSearchNodes($output[$outputCount][$aliases['children']]);
                     }
+                }
+                if ($inputCount > $this->inputCount) {
+                    return $output;
                 }
             }
         }
+        return [];
     }
 }
