@@ -13,6 +13,10 @@
     },
     "tmpDir": "var",
     "mutators": {
-        "@default": true
+        "@default": true,
+        "@boolean": false,
+        "@conditional_negotiation": false,
+        "@conditional_boundary": false,
+        "@arithmetic": false
     }
 }

@@ -154,9 +154,6 @@ final class AdjacencyList
                         return $this->recursiveSearchNodes($output[$outputCount][$aliases['children']]);
                     }
                 }
-                if ($inputCount > $this->inputCount) {
-                    return $output;
-                }
             }
         }
         return [];
